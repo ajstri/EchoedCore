@@ -196,7 +196,6 @@ public class EchoedCore {
         utils = new MusicUtilities(musicManagers, EchoedCore.audioManager);
 
         if (getUseDefaultMusicCommands()) {
-            // TODO init default music commands
             List<Command> musicCommands = Arrays.asList(
                     new PauseCommand(),
                     new PlayCommand(),
