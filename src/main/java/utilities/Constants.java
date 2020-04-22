@@ -54,7 +54,7 @@ public class Constants {
     public static final String stageInit = "INITIALIZATION";
     public static final String stagePostInit = "POST-INITIALIZATION";
     public static final String stageShutdown = "SHUTDOWN";
-    //public static final String stageCommand = "COMMAND CALL";
+    public static final String stageCommand = "COMMAND CALL";
 
     public static final int WRITE_TO_FILE_SUCCESS = 1;
     public static final int WRITE_TO_FILE_FAIL = -1;
@@ -63,7 +63,5 @@ public class Constants {
     public static final int VOICE_CONNECT_NO_PERMS = -2;
     public static final int VOICE_CONNECT_NOT_IN_CHANNEL = -1;
     public static final int VOICE_CONNECT_FAIL_OTHER = -3;
-
-    //public static final String OWNER_ID = "202422697173581824";
 
 }
