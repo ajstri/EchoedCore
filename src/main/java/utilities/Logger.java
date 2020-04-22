@@ -18,7 +18,10 @@ package utilities;
 import java.io.PrintStream;
 
 /**
+ * Logger class of the EchoedCore project
  *
+ * @author EchoedAJ
+ * @since April 2020
  */
 public class Logger {
 
@@ -35,9 +38,12 @@ public class Logger {
     }
 
     public void setTitle(String newTitle) {
-        title = newTitle;
+        title = "[" + newTitle;
     }
 
+    /**
+     * Welcomes user to the Core
+     */
     public void welcome() {
         blank("", Constants.ANSI_PURPLE,
                 "                                                     \n" +
@@ -65,13 +71,17 @@ public class Logger {
         blank("", Constants.ANSI_WHITE, "\n\n\n");
     }
 
+    /**
+     * Toggles if internal logging should be used
+     * @param logging true if yes, false if no
+     */
     public void setLogging(boolean logging) {
         log = logging;
     }
 
     /**
-     *
-     * @param message
+     * Logs an informational message
+     * @param message Message to log
      */
     public void info(String message) {
         if (log) {
@@ -80,34 +90,33 @@ public class Logger {
     }
 
     /**
-     *
-     * @param message
+     * Logs a warning message
+     * @param message Message to log
      */
     public void warning(String message) {
         if (log) {
-            other.println(Constants.ANSI_YELLOW + title + "/WARNING]" + message + Constants.ANSI_RESET);
+            other.println(Constants.ANSI_YELLOW + title + "/WARNING] " + message + Constants.ANSI_RESET);
         }
     }
 
     /**
-     *
-     * @param message
-     * @param e
+     * Logs an error message
+     * @param message Message to log
+     * @param e Exception encountered
      */
     public void error(String message, Exception e) {
         if (log) {
-            err.println(Constants.ANSI_RED + title + "/ERROR]" + message + Constants.ANSI_RESET);
+            err.println(Constants.ANSI_RED + title + "/ERROR] " + message + Constants.ANSI_RESET);
 
-            System.out.println("Here is the error: \n");
             e.getMessage();
             e.printStackTrace();
         }
     }
 
     /**
-     *
-     * @param message
-     * @param stage
+     * Logs a debug message
+     * @param message Message to log
+     * @param stage Stage of log
      */
     public void debug(String message, String stage) {
         if (log) {

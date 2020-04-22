@@ -26,6 +26,12 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * TrackScheduler class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class TrackScheduler extends AudioEventAdapter  {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;

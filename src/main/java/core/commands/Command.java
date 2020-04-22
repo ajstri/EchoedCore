@@ -17,19 +17,17 @@ package core.commands;
 
 import core.EchoedCore;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import utilities.Logger;
 import utilities.MessageUtilities;
 
 import java.util.List;
 
 /**
- *  Command class of the EchoedDungeons project
+ *  Command class of the EchoedCore project
  *
- *  All methods are explained here
+ *  All Command methods are explained here
  *
  * @author EchoedAJ
  * @since April 2020
@@ -73,6 +71,11 @@ public abstract class Command extends ListenerAdapter {
      * @return true if default, false if not
      */
     public abstract boolean getDefaultPermission();
+
+    /**
+     * Defines a Module for the command.
+     */
+    public abstract String getModule();
 
     /**
      * Called when Message is received visible to the Bot.

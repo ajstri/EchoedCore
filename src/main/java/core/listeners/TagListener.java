@@ -20,13 +20,23 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import javax.annotation.Nonnull;
-
+/**
+ * TagListener class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class TagListener extends ListenerAdapter {
 
+    /**
+     * Checks if a user is asking for the bot's prefix in a message event.
+     * If a user is, sends a message containing the prefix.
+     *
+     * @param event MessageReceivedEvent
+     */
     @Override
     @SuppressWarnings("ConstantConditions")
-    public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
         User botMention = EchoedCore.api.getSelfUser();
         String args;
 

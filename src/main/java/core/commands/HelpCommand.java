@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.List;
 
 /**
- *  HelpCommand class of the EchoedDungeons project
+ *  HelpCommand class of the EchoedCore project
  *
  *  All methods are explained in {@link Command}
  *
@@ -42,12 +42,14 @@ public class HelpCommand extends Command {
     private static final String NO_USAGE = "No usage instructions have been provided for this command. Sorry!";
 
     public final TreeMap<String, Command> commands;
+    public List<String> modules;
 
     /**
      * Constructor for the HelpCommand
      */
     public HelpCommand() {
         commands = new TreeMap<>();
+        registerModules();
     }
 
     /**
@@ -58,6 +60,15 @@ public class HelpCommand extends Command {
     public Command registerCommand(Command command) {
         commands.put(command.getAliases().get(0), command);
         return command;
+    }
+
+    private void registerModules() {
+        modules = Arrays.asList(
+                Modules.ADMIN,
+                Modules.FUN,
+                Modules.GENERIC,
+                Modules.MUSIC
+        );
     }
 
     @Override
@@ -107,6 +118,11 @@ public class HelpCommand extends Command {
         return true;
     }
 
+    @Override
+    public String getModule() {
+        return Modules.GENERIC;
+    }
+
     /**
      * Sends a message to a private channel.
      * @param channel channel to send to
@@ -114,16 +130,12 @@ public class HelpCommand extends Command {
      */
     private void sendPrivateDefault(PrivateChannel channel, String[] args) {
         if (args.length < 2) {
-            EmbedBuilder embed = new EmbedBuilder().setTitle("Commands Supported").setColor(Color.RED);
-
+            EmbedBuilder embed = new EmbedBuilder().setTitle("Modules Supported").setColor(Color.RED);
             MessageUtilities.addEmbedDefaults(embed);
 
-            // For each command, add its values to embed.
-            for (Command c : commands.values()) {
-                String description = c.getDescription();
-                description = (description == null || description.isEmpty()) ? NO_DESCRIPTION : description;
-
-                embed.addField(c.getAliases().get(0), description, false);
+            // For each Module, add its values to embed.
+            for (String m : modules) {
+                embed.addField(m, commandsInModule(m) + " commands active", true);
             }
 
             // Send embed.
@@ -139,16 +151,33 @@ public class HelpCommand extends Command {
             for (Command c : commands.values()) {
                 if (c.getAliases().contains(command)) {
                     // Define values.
-
                     addCommandValues(embed, c);
 
                     // Send embed.
                     channel.sendMessage(embed.build()).queue();
                     return;
-
                 }
             }
-            // If it reaches this point, the command searched for does not exist.
+
+            // Needs to find module, then list all commands with that module.
+            boolean hasACommand = false;
+            for (String module : modules) {
+                if (module.contains(command)) {
+                    List<Command> commandsInModule = getCommandsInModule(module);
+                    for (Command c : commandsInModule) {
+                        // Define values.
+                        embed.addField(c.getName(), "", false);
+                        hasACommand = true;
+                    }
+                }
+                // Send embed.
+                if (hasACommand) {
+                    channel.sendMessage(embed.build()).queue();
+                    return;
+                }
+            }
+
+            // If it reaches this point, the command/module searched for does not exist.
             doesNotExist(channel, args);
         }
     }
@@ -200,5 +229,31 @@ public class HelpCommand extends Command {
         for (int i = 1; i < usageInstructions.size(); i++) {
             embed.addField("", usageInstructions.get(i), false);
         }
+    }
+
+    /**
+     * Returns a list of Commands within a given module
+     * @param module Module to search in
+     * @return List of commands
+     */
+    private List<Command> getCommandsInModule(String module) {
+        List<Command> activeCommands = null;
+
+        for (Command command : commands.values()) {
+            if (command.getModule().toLowerCase().contains(module)) {
+                activeCommands.add(command);
+            }
+        }
+
+        return activeCommands;
+    }
+
+    /**
+     * Returns the number of commands in a module
+     * @param module Module to search in
+     * @return Number of commands in Module
+     */
+    private int commandsInModule(String module) {
+        return getCommandsInModule(module).size();
     }
 }

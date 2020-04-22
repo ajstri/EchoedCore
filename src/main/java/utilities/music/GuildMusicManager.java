@@ -18,6 +18,12 @@ package utilities.music;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
+/**
+ * GuildMusicManager class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class GuildMusicManager {
     /**
      * Audio player for the guild.

@@ -17,15 +17,26 @@ package core.commands.music;
 
 import core.EchoedCore;
 import core.commands.Command;
+import core.commands.Modules;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *  SkipCommand class of the EchoedCore project
+ *
+ *  All methods are explained in {@link Command}
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class SkipCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
+        EchoedCore.log.info("SKIP");
+
         Member author = mre.getMember();
         if (author != null) {
             if (EchoedCore.utils.isInVoiceChannel(mre.getMember())) {
@@ -66,5 +77,10 @@ public class SkipCommand extends Command {
     @Override
     public boolean getDefaultPermission() {
         return false;
+    }
+
+    @Override
+    public String getModule() {
+        return Modules.MUSIC;
     }
 }

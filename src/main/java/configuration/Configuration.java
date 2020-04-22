@@ -24,7 +24,7 @@ import utilities.exceptions.NoConfigurationFileException;
 import java.io.*;
 
 /**
- *  Config class of the EchoedDungeons project
+ * Config class of the EchoedCore project
  *
  * @author EchoedAJ
  * @since April 2020
@@ -43,13 +43,13 @@ public class Configuration {
     public Configuration() {
         // Check if Configuration File exists.
         File f = new File(fileName);
-        if(!f.exists() || f.isDirectory()) {
+        if (!f.exists() || f.isDirectory()) {
             // Create file.
             createConfigurationFile();
         }
 
         // Check if Configuration File is usable.
-        if(!checkConfigurationUsability()) {
+        if (!checkConfigurationUsability()) {
             EchoedCore.log.error(
                 "Configuration File is not usable.",
                 new NoConfigurationFileException("Unusable configuration file. Please check the file at " + fileName)
@@ -79,7 +79,7 @@ public class Configuration {
         obj2.put(arrayName, object);
 
         // Write to the file.
-        if(writeToFile(obj2) < 0) {
+        if (writeToFile(obj2) < 0) {
             EchoedCore.log.error("Unable to create configuration file.", new NoConfigurationFileException("Unusable configuration file."));
             EchoedCore.shutdown(Constants.STATUS_NO_CONFIG);
         }
@@ -87,6 +87,7 @@ public class Configuration {
 
     /**
      * Checks usability of Configuration file.
+     *
      * @return true if usable, false if not.
      */
     private boolean checkConfigurationUsability() {
@@ -102,6 +103,7 @@ public class Configuration {
 
     /**
      * Adds a JSON Array to the Configuration File.
+     *
      * @param obj JSONObject to add to file.
      */
     @SuppressWarnings("unused")
@@ -112,6 +114,7 @@ public class Configuration {
 
     /**
      * Adds a JSON Object to the Configuration File.
+     *
      * @param obj JSONObject to add to file.
      */
     @SuppressWarnings("Duplicates")
@@ -122,6 +125,7 @@ public class Configuration {
 
     /**
      * Retrieves the JSONObject to read the JSON File.
+     *
      * @return JSONObject
      */
     @SuppressWarnings("unused")
@@ -131,6 +135,7 @@ public class Configuration {
 
     /**
      * Retrieves prefix for the Bot.
+     *
      * @return prefix from Configuration.
      */
     public String getPrefix() {
@@ -146,6 +151,7 @@ public class Configuration {
 
     /**
      * Retrieves token for the Bot.
+     *
      * @return token from Configuration.
      */
     public String getToken() {
@@ -163,6 +169,7 @@ public class Configuration {
 
     /**
      * Retrieves debug status for the Bot.
+     *
      * @return debug status from Configuration.
      */
     public boolean getDebug() {
@@ -178,6 +185,7 @@ public class Configuration {
 
     /**
      * Retrieves shards for the Bot.
+     *
      * @return number of shards from Configuration.
      */
     public int getShards() {

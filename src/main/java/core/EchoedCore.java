@@ -34,6 +34,14 @@ import javax.security.auth.login.LoginException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * EchoedCore class of the EchoedCore project
+ * The very Core of the framework. Contains all commands for
+ * instantiating the Bot.
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class EchoedCore {
     // jda specific
     public static JDA api;
@@ -41,10 +49,10 @@ public class EchoedCore {
     public static String id;
 
     // core specific
+    public static Logger log = new Logger();
     public static final Configuration config = new Configuration();
     public static final HelpCommand help = new HelpCommand();
     public static boolean logging = true;
-    public static Logger log = new Logger();
 
     private static long time = System.currentTimeMillis();
     private static boolean useDefaultMusicCommands = false;
@@ -200,7 +208,9 @@ public class EchoedCore {
                     new PauseCommand(),
                     new PlayCommand(),
                     new QueueCommand(),
-                    new SkipCommand()
+                    new SkipCommand(),
+                    new StopCommand(),
+                    new NowPlayingCommand()
             );
             registerCommands(musicCommands);
         }

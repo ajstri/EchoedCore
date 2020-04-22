@@ -27,6 +27,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
+/**
+ * MessageUtilities class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class MessageUtilities {
     public static void addEmbedDefaults(EmbedBuilder embed) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
@@ -39,6 +45,11 @@ public class MessageUtilities {
         embed.setTimestamp(temporalAccessor);
     }
 
+    /**
+     * Adds an author to the embed
+     * @param embed EmbedBuilder to add author to
+     * @param user Author
+     */
     public static void addEmbedAuthor(EmbedBuilder embed, User user) {
         embed.setAuthor(user.getAsMention(), user.getAvatarUrl());
     }

@@ -24,6 +24,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * FileUtilities class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class FileUtilities {
 
     /**
@@ -80,6 +86,13 @@ public class FileUtilities {
         }
     }
 
+    /**
+     * Retrieves a specific value by key in a given file.
+     * @param fileName Name of the file to retrieve key from
+     * @param key Key to retrieve
+     * @param arrayLocation Array the key is located in
+     * @return Value of the key
+     */
     @SuppressWarnings("ConstantConditions")
     public static String getValueByKey(String fileName, String key, String arrayLocation) {
         JSONArray object = getJSONFile(fileName);

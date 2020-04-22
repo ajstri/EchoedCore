@@ -19,10 +19,18 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import utilities.Constants;
+import utilities.MessageUtilities;
 
+/**
+ * MusicHandler class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class MusicHandler implements AudioLoadResultHandler {
 
     private final TextChannel channel;
@@ -42,8 +50,13 @@ public class MusicHandler implements AudioLoadResultHandler {
     @Override
     public void trackLoaded(AudioTrack audioTrack) {
         if (utils.isInVoiceChannel(author)) {
-            channel.sendMessage("Adding to queue " + audioTrack.getInfo().title).queue();
+            //channel.sendMessage("Adding to queue " + audioTrack.getInfo().title).queue();
+            EmbedBuilder embed = new EmbedBuilder();
+            MessageUtilities.addEmbedDefaults(embed);
+            MessageUtilities.addEmbedAuthor(embed, author.getUser());
 
+            embed.addField("Adding to queue", audioTrack.getInfo().title, false);
+            channel.sendMessage(embed.build()).queue();
 
             int connect = utils.play(channel.getGuild(), audioTrack, author, first);
 
@@ -64,16 +77,20 @@ public class MusicHandler implements AudioLoadResultHandler {
             firstTrack = playlist.getTracks().get(0);
         }
 
+        // Send message regarding queue
         channel.sendMessage(
-                "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist "
+                "Adding to queue " + firstTrack.getInfo().title + " (first track of playlist **"
                 + playlist.getName()
-                + " with " + playlist.getTracks().size()
+                + "** with " + playlist.getTracks().size()
                 + " tracks)"
         ).queue();
 
+        // Add tracks
         for (AudioTrack audio : playlist.getTracks()) {
             if (utils.play(channel.getGuild(), audio, author, false) == -1) {
+                // Quit if user is not in a voice channel
                 channel.sendMessage("You are not in a voice channel!").queue();
+                return;
             }
         }
     }

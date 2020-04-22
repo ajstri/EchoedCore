@@ -25,6 +25,13 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import utilities.*;
 
 import java.util.*;
+
+/**
+ * TagListener class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class MusicUtilities {
 
     private static Map<Long, GuildMusicManager> musicManagers;
@@ -123,6 +130,14 @@ public class MusicUtilities {
         else return Constants.VOICE_CONNECT_NOT_IN_CHANNEL;
     }
 
+    public void stopPlayer(Guild guild) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
+        musicManager.player.stopTrack();
+        musicManager.scheduler.getQueue().clear();
+
+        guild.getAudioManager().closeAudioConnection();
+    }
+
     /**
      * Checks if author is in a voice channel
      * @param author to check
@@ -210,6 +225,16 @@ public class MusicUtilities {
         if (sendEmbed) channel.sendMessage(embed.build()).queue();
     }
 
+    public int getVolume (Guild guild) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
+        return musicManager.player.getVolume();
+    }
+
+    public void setVolume (Guild guild, int volume) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
+        musicManager.player.setVolume(volume);
+    }
+
     /**
      * Gets audio player from the Guild
      * @param guild Guild to retrieve player from
@@ -241,7 +266,5 @@ public class MusicUtilities {
         else
             return String.format("%02d:%02d", minutes, seconds);
     }
-
-
 
 }

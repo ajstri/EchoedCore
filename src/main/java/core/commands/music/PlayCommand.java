@@ -17,6 +17,7 @@ package core.commands.music;
 
 import core.EchoedCore;
 import core.commands.Command;
+import core.commands.Modules;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -25,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  PlayCommand class of the EchoedDungeons project
+ *  PlayCommand class of the EchoedCore project
  *
  *  All methods are explained in {@link Command}
  *
@@ -36,6 +37,8 @@ public class PlayCommand extends Command {
 
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
+        EchoedCore.log.info("PLAY");
+
         Member author = mre.getMember();
         if (author == null) {
             // Somehow the author is null
@@ -91,5 +94,10 @@ public class PlayCommand extends Command {
     @Override
     public boolean getDefaultPermission() {
         return false;
+    }
+
+    @Override
+    public String getModule() {
+        return Modules.MUSIC;
     }
 }

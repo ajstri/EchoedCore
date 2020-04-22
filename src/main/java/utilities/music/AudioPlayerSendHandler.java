@@ -22,6 +22,12 @@ import net.dv8tion.jda.api.audio.AudioSendHandler;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
+/**
+ * AudioPlayerSendHandler class of the EchoedCore project
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private final ByteBuffer buffer;
