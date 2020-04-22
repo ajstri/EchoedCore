@@ -1,25 +1,26 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package utilities.music;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import core.EchoedCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.managers.AudioManager;
 import utilities.*;
@@ -34,32 +35,20 @@ import java.util.*;
  */
 public class MusicUtilities {
 
-    private static Map<Long, GuildMusicManager> musicManagers;
-    private final AudioPlayerManager playerManager;
-
     /**
      * Constructor for the MusicUtils class.
      * Useful because the player needs one instance.
-     *
-     * @param musicManagers guild music managers
-     * @param playerManager player manager
      */
-    public MusicUtilities(Map<Long, GuildMusicManager> musicManagers, AudioPlayerManager playerManager) {
-        MusicUtilities.musicManagers = musicManagers;
-        this.playerManager = playerManager;
-    }
+    public MusicUtilities() {}
 
     /**
      * Loads a track and plays it
-     * @param channel Channel requested from
      * @param trackUrl Song to load
-     * @param author Author who requested song
-     * @param utils MusicUtils instance
      * @param first true if it should override queue
      */
-    public void loadAndPlay(TextChannel channel, String trackUrl, Member author, MusicUtilities utils, boolean first) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
-        playerManager.loadItemOrdered(musicManager, trackUrl, new MusicHandler(channel, trackUrl, author, utils, first));
+    public void loadAndPlay(MessageReceivedEvent mre, String trackUrl, boolean first) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(mre.getGuild());
+        EchoedCore.getAudioManager().loadItemOrdered(musicManager, trackUrl, new MusicHandler(mre, trackUrl, first));
     }
 
     /**
@@ -244,10 +233,10 @@ public class MusicUtilities {
         long guildId = Long.parseLong(guild.getId());
         GuildMusicManager musicManager;
 
-        musicManager = musicManagers.get(guildId);
+        musicManager = EchoedCore.getMusicManagers().get(guildId);
         if(musicManager == null) {
-            musicManager = new GuildMusicManager(this.playerManager);
-            musicManagers.put(guildId, musicManager);
+            musicManager = new GuildMusicManager(EchoedCore.getAudioManager());
+            EchoedCore.getMusicManagers().put(guildId, musicManager);
         }
 
         guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());

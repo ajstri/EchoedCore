@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package core.commands.music;
 
 import core.EchoedCore;
@@ -13,12 +28,12 @@ import java.util.List;
 public class NowPlayingCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
-        EchoedCore.log.info("NOW PLAYING");
+        EchoedCore.getLog().info("NOW PLAYING");
 
         Member author = mre.getMember();
         if (author != null) {
-            if (EchoedCore.utils.isInVoiceChannel(mre.getMember())) {
-                mre.getChannel().sendMessage(EchoedCore.utils.getTrackTitle(mre.getGuild())).queue();
+            if (EchoedCore.getMusicUtils().isInVoiceChannel(mre.getMember())) {
+                mre.getChannel().sendMessage(EchoedCore.getMusicUtils().getTrackTitle(mre.getGuild())).queue();
             }
             else {
                 mre.getChannel().sendMessage("You must be in a voice channel to use this command").queue();
@@ -46,13 +61,13 @@ public class NowPlayingCommand extends Command {
 
     @Override
     public List<String> getUsage() {
-        return Collections.singletonList(EchoedCore.config.getPrefix() + "nowplaying");
+        return Collections.singletonList(EchoedCore.getConfig().getPrefix() + "nowplaying");
     }
 
-    @Override
+    /*@Override
     public boolean getDefaultPermission() {
         return true;
-    }
+    }*/
 
     @Override
     public String getModule() {

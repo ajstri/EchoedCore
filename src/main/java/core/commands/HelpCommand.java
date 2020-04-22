@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package core.commands;
 
@@ -73,7 +73,7 @@ public class HelpCommand extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent mre, String[] args) {
-        EchoedCore.log.info("HELP");
+        EchoedCore.getLog().info("HELP");
         // Bypass sending message if it is already in a private message.
         if(!mre.isFromType(ChannelType.PRIVATE)) {
             // Send help message
@@ -106,17 +106,17 @@ public class HelpCommand extends Command {
     @Override
     public List<String> getUsage() {
         return Collections.singletonList(
-                EchoedCore.config.getPrefix() + "help   **OR**  " + EchoedCore.config.getPrefix() + "help *<command>*\n"
-                        + EchoedCore.config.getPrefix() + "help - returns the list of commands along with a simple description of each.\n"
-                        + EchoedCore.config.getPrefix() + "help <command> - returns the name, description, aliases and usage information of a command.\n"
+                EchoedCore.getConfig().getPrefix() + "help   **OR**  " + EchoedCore.getConfig().getPrefix() + "help *<command>*\n"
+                        + EchoedCore.getConfig().getPrefix() + "help - returns the list of commands along with a simple description of each.\n"
+                        + EchoedCore.getConfig().getPrefix() + "help <command> - returns the name, description, aliases and usage information of a command.\n"
                         + "   - This can use the aliases of a command as input as well.\n"
-                        + "__Example:__ " + EchoedCore.config.getPrefix() + "help ping");
+                        + "__Example:__ " + EchoedCore.getConfig().getPrefix() + "help ping");
     }
 
-    @Override
+    /*@Override
     public boolean getDefaultPermission() {
         return true;
-    }
+    }*/
 
     @Override
     public String getModule() {
@@ -193,7 +193,7 @@ public class HelpCommand extends Command {
                 .append("The provided command '**")
                 .append(args[1])
                 .append("**' does not exist. Use ")
-                .append(EchoedCore.config.getPrefix())
+                .append(EchoedCore.getConfig().getPrefix())
                 .append("help to list all commands.")
                 .build()).queue();
     }
@@ -237,7 +237,7 @@ public class HelpCommand extends Command {
      * @return List of commands
      */
     private List<Command> getCommandsInModule(String module) {
-        List<Command> activeCommands = null;
+        List<Command> activeCommands = new ArrayList<>();
 
         for (Command command : commands.values()) {
             if (command.getModule().toLowerCase().contains(module)) {

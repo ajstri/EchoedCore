@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package core.commands;
 
@@ -66,11 +66,12 @@ public abstract class Command extends ListenerAdapter {
      */
     public abstract List<String> getUsage();
 
-    /**
+    /*
      * Determines default permissions
      * @return true if default, false if not
      */
-    public abstract boolean getDefaultPermission();
+    // TODO reinstate method when implementing permission checks
+    //public abstract boolean getDefaultPermission();
 
     /**
      * Defines a Module for the command.
@@ -88,8 +89,8 @@ public abstract class Command extends ListenerAdapter {
         if (mre.getAuthor().isBot() && !respondToBots()) {
             return;
         }
-        if(commandArgs(mre.getMessage())[0].contains(EchoedCore.config.getPrefix()) && containsCommand(mre.getMessage())) {
-            EchoedCore.log.info("Calling a command:");
+        if(commandArgs(mre.getMessage())[0].contains(EchoedCore.getConfig().getPrefix()) && containsCommand(mre.getMessage())) {
+            EchoedCore.getLog().info("Calling a command:");
             onCommand(mre, commandArgs(mre.getMessage()));
         }
 
@@ -101,7 +102,7 @@ public abstract class Command extends ListenerAdapter {
      * @return true if message contained command, false if not.
      */
     private boolean containsCommand(Message message) {
-        return getAliases().contains(commandArgs(message)[0].replace(EchoedCore.config.getPrefix(), ""));
+        return getAliases().contains(commandArgs(message)[0].replace(EchoedCore.getConfig().getPrefix(), ""));
     }
 
     /**

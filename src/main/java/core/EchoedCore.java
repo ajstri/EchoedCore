@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package core;
 
@@ -44,33 +44,37 @@ import java.util.concurrent.TimeUnit;
  */
 public class EchoedCore {
     // jda specific
-    public static JDA api;
+    private static JDA api;
     private static JDABuilder builder;
-    public static String id;
 
     // core specific
-    public static Logger log = new Logger();
-    public static final Configuration config = new Configuration();
-    public static final HelpCommand help = new HelpCommand();
-    public static boolean logging = true;
-
+    private static final Logger log = new Logger();
+    private static final Configuration config = new Configuration();
+    private static final HelpCommand help = new HelpCommand();
     private static long time = System.currentTimeMillis();
+
+    // toggleable by user
     private static boolean useDefaultMusicCommands = false;
 
     // LavaPlayer specific
-    public static AudioPlayerManager audioManager;
-    public static AudioPlayer player;
-    public static TrackScheduler trackScheduler;
-    public static MusicUtilities utils;
-    public static Map<Long, GuildMusicManager> musicManagers;
+    private static AudioPlayerManager audioManager;
+    private static MusicUtilities utils;
+    private static Map<Long, GuildMusicManager> musicManagers;
 
     public EchoedCore() {}
 
     // ----- Accessible Bot Methods -----
 
-    public void disableLogging() {
-        logging = false;
-        log.setLogging(false);
+    public static boolean UsingDefaultMusicCommands() {
+        return useDefaultMusicCommands;
+    }
+
+    public void disableInternalLogging() {
+        getLog().setLogging(false);
+    }
+
+    public void enableInternalLogging() {
+        getLog().setLogging(true);
     }
 
     public void registerEventListener(Object... listener) {
@@ -85,7 +89,7 @@ public class EchoedCore {
 
     public static void registerCommands(List<Command> commands) {
         for (Command command: commands) {
-            api.addEventListener(help.registerCommand(command));
+            api.addEventListener(getHelp().registerCommand(command));
         }
     }
 
@@ -97,25 +101,27 @@ public class EchoedCore {
     }
 
     public void startup() {
-        log.welcome();
+        getLog().welcome();
         debugOnlyInitialization();
         preInitialization();
         initialization();
         postInitialization();
     }
 
+    // ----- Internal Methods -----
+
     private static void debugOnlyInitialization() {
         if (config.getDebug()) {
-            log.debug("Welcome to EchoedCore! \n \n", Constants.stagePreInit);
-            log.debug("Prefix: " + config.getPrefix(), Constants.stagePreInit);
-            log.debug("Game Status: " + "config.getGameStatus()", Constants.stagePreInit);
-            log.debug("Debug Status: " + "true", Constants.stagePreInit);
-            log.debug("Token: " + config.getToken(), Constants.stagePreInit);
+            getLog().debug("Welcome to EchoedCore! \n \n", Constants.stagePreInit);
+            getLog().debug("Prefix: " + config.getPrefix(), Constants.stagePreInit);
+            getLog().debug("Game Status: " + "config.getGameStatus()", Constants.stagePreInit);
+            getLog().debug("Debug Status: " + "true", Constants.stagePreInit);
+            getLog().debug("Token: " + config.getToken(), Constants.stagePreInit);
         }
     }
 
     private static void preInitialization() {
-        log.debug("Beginning Pre-Initialization.", Constants.stagePreInit);
+        getLog().debug("Beginning Pre-Initialization.", Constants.stagePreInit);
 
         time = System.currentTimeMillis();
 
@@ -125,16 +131,16 @@ public class EchoedCore {
     }
 
     private void initialization() {
-        log.debug("Beginning initialization.", Constants.stageInit);
+        getLog().debug("Beginning initialization.", Constants.stageInit);
         // Define the JDA Instance.
         try {
-            log.debug("Defining JDA instance.", Constants.stageInit);
+            getLog().debug("Defining JDA instance.", Constants.stageInit);
 
-            if (config.getShards() > 0) {
+            if (getConfig().getShards() > 0) {
                 // Adding event listeners.
                 registerEventListeners();
                 // Sharding.
-                for (int i = 0; i < config.getShards(); i++)
+                for (int i = 0; i < getConfig().getShards(); i++)
                 {
                     api = builder.useSharding(i, config.getShards())
                             .build();
@@ -148,30 +154,29 @@ public class EchoedCore {
             }
         }
         catch (LoginException le){
-            log.error("Unable to define the JDA instance.", le);
+            getLog().error("Unable to define the JDA instance.", le);
             shutdown(Constants.STATUS_NO_JDA);
         }
         catch (InterruptedException ie) {
-            log.error("Interrupted upon waiting JDA Instance.", ie);
+            getLog().error("Interrupted upon waiting JDA Instance.", ie);
             shutdown(Constants.STATUS_NO_JDA);
         }
         catch (ErrorResponseException ere) {
-            log.error("Unable to connect.", ere);
+            getLog().error("Unable to connect.", ere);
             shutdown(Constants.STATUS_UNABLE_TO_CONNECT);
         }
 
     }
 
     private static void postInitialization() {
-        log.debug("Beginning post-initialization.", Constants.stagePostInit);
+        getLog().debug("Beginning post-initialization.", Constants.stagePostInit);
 
         // Set the Bot's ID.
         try {
-            id = api.getSelfUser().getId();
-            log.debug("Bot ID: " + id, Constants.stagePostInit);
+            getLog().debug("Bot ID: " + getId(), Constants.stagePostInit);
         }
         catch (Exception e) {
-            log.error("Error retrieving Bot ID. This is not a vital step, but may cause issues later.", e);
+            getLog().error("Error retrieving Bot ID. This is not a vital step, but may cause issues later.", e);
         }
 
         // Set auto-reconnect to true & set game status.
@@ -188,32 +193,63 @@ public class EchoedCore {
 
     // ----- Music -----
 
-    public boolean getUseDefaultMusicCommands () {
-        return useDefaultMusicCommands;
-    }
-
     private void initMusicPlayer() {
         audioManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(audioManager);
-        player = audioManager.createPlayer();
+        AudioPlayer player = audioManager.createPlayer();
 
-        trackScheduler = new TrackScheduler(player);
+        TrackScheduler trackScheduler = new TrackScheduler(player);
         player.addListener(trackScheduler);
 
         musicManagers = new HashMap<>();
-        utils = new MusicUtilities(musicManagers, EchoedCore.audioManager);
+        utils = new MusicUtilities();
 
-        if (getUseDefaultMusicCommands()) {
+        if (UsingDefaultMusicCommands()) {
             List<Command> musicCommands = Arrays.asList(
                     new PauseCommand(),
                     new PlayCommand(),
                     new QueueCommand(),
                     new SkipCommand(),
                     new StopCommand(),
-                    new NowPlayingCommand()
+                    new NowPlayingCommand(),
+                    new VolumeCommand()
             );
             registerCommands(musicCommands);
         }
+    }
+
+    // ----- Getter Methods -----
+
+    public static Configuration getConfig() {
+        return config;
+    }
+
+    public static Logger getLog() {
+        return log;
+    }
+
+    public static HelpCommand getHelp() {
+        return help;
+    }
+
+    public static Map<Long, GuildMusicManager> getMusicManagers() {
+        return musicManagers;
+    }
+
+    public static MusicUtilities getMusicUtils() {
+        return utils;
+    }
+
+    public static AudioPlayerManager getAudioManager() {
+        return audioManager;
+    }
+
+    public static String getId() {
+        return getApi().getSelfUser().getId();
+    }
+
+    public static JDA getApi() {
+        return api;
     }
 
     public static void shutdown(int status) {
@@ -222,22 +258,22 @@ public class EchoedCore {
         long endTime = System.currentTimeMillis();
         long timeActive = endTime - time;
 
-        log.info("Active for " + ((timeActive / 1000) / 60) + " minutes. (" + (timeActive / 1000) + " seconds)");
-        log.info("Beginning shutdown.");
+        getLog().info("Active for " + ((timeActive / 1000) / 60) + " minutes. (" + (timeActive / 1000) + " seconds)");
+        getLog().info("Beginning shutdown.");
 
         // Remove event listeners. The Bot can shutdown before these are defined.
         try {
             api.removeEventListener(api.getRegisteredListeners());
         }
         catch (NullPointerException npe) {
-            log.debug("No Event Listeners to remove.", Constants.stageShutdown);
+            getLog().debug("No Event Listeners to remove.", Constants.stageShutdown);
         }
 
         try {
             TimeUnit.SECONDS.sleep(1);
         }
         catch (InterruptedException ie) {
-            log.debug("Ignored InterruptedException on shut down.", Constants.stageShutdown);
+            getLog().debug("Ignored InterruptedException on shut down.", Constants.stageShutdown);
         }
 
         if (status != Constants.STATUS_NO_JDA && status != Constants.STATUS_CONFIG_UNUSABLE && status != Constants.STATUS_UNABLE_TO_CONNECT) {

@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package core.commands.music;
 
@@ -35,16 +35,16 @@ import java.util.List;
 public class QueueCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
-        EchoedCore.log.info("QUEUE");
+        EchoedCore.getLog().info("QUEUE");
 
         Member author = mre.getMember();
         if (author != null) {
             // Check if in a voice channel
-            if (EchoedCore.utils.isInVoiceChannel(author)) {
+            if (EchoedCore.getMusicUtils().isInVoiceChannel(author)) {
                 if (args.length == 1) {
                     // No page number, display first
-                    EchoedCore.log.info("Displaying queue");
-                    EchoedCore.utils.displayQueue(mre.getTextChannel(), 1);
+                    EchoedCore.getLog().info("Displaying queue");
+                    EchoedCore.getMusicUtils().displayQueue(mre.getTextChannel(), 1);
                 }
                 else {
                     int page = 1;
@@ -56,7 +56,7 @@ public class QueueCommand extends Command {
                         mre.getChannel().sendMessage("If you want to visit a page in the queue, please use an integer.").queue();
                     }
                     // Actually display queue
-                    EchoedCore.utils.displayQueue(mre.getTextChannel(), page);
+                    EchoedCore.getMusicUtils().displayQueue(mre.getTextChannel(), page);
                 }
             }
             else {
@@ -89,10 +89,10 @@ public class QueueCommand extends Command {
         return null;
     }
 
-    @Override
+    /*@Override
     public boolean getDefaultPermission() {
         return false;
-    }
+    }*/
 
     @Override
     public String getModule() {

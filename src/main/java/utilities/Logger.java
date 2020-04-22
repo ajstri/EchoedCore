@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package utilities;
 
@@ -79,12 +79,16 @@ public class Logger {
         log = logging;
     }
 
+    public static boolean isLogging() {
+        return log;
+    }
+
     /**
      * Logs an informational message
      * @param message Message to log
      */
     public void info(String message) {
-        if (log) {
+        if (isLogging()) {
             other.println(Constants.ANSI_BLUE + title + "/INFO] " + message + Constants.ANSI_RESET);
         }
     }
@@ -94,7 +98,7 @@ public class Logger {
      * @param message Message to log
      */
     public void warning(String message) {
-        if (log) {
+        if (isLogging()) {
             other.println(Constants.ANSI_YELLOW + title + "/WARNING] " + message + Constants.ANSI_RESET);
         }
     }
@@ -105,7 +109,7 @@ public class Logger {
      * @param e Exception encountered
      */
     public void error(String message, Exception e) {
-        if (log) {
+        if (isLogging()) {
             err.println(Constants.ANSI_RED + title + "/ERROR] " + message + Constants.ANSI_RESET);
 
             e.getMessage();
@@ -119,7 +123,7 @@ public class Logger {
      * @param stage Stage of log
      */
     public void debug(String message, String stage) {
-        if (log) {
+        if (isLogging()) {
             other.println(Constants.ANSI_PURPLE + title + "/DEBUG/" + stage + "] " + message + Constants.ANSI_RESET);
         }
     }
@@ -131,6 +135,8 @@ public class Logger {
      * @param color color of message
      */
     public void blank(String header, String color, String message) {
-        other.println(color + header + message + Constants.ANSI_RESET);
+        if (isLogging()) {
+            other.println(color + header + message + Constants.ANSI_RESET);
+        }
     }
 }

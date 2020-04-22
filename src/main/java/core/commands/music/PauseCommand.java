@@ -1,17 +1,17 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package core.commands.music;
 
@@ -35,15 +35,15 @@ import java.util.List;
 public class PauseCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
-        EchoedCore.log.info("PAUSE");
+        EchoedCore.getLog().info("PAUSE");
 
         Member author = mre.getMember();
         // Check if in a voice channel
         if (author != null) {
-            if (EchoedCore.utils.isInVoiceChannel(mre.getMember())) {
+            if (EchoedCore.getMusicUtils().isInVoiceChannel(mre.getMember())) {
                 // pause
-                EchoedCore.log.info("Pausing track");
-                EchoedCore.utils.pause(mre.getGuild());
+                EchoedCore.getLog().info("Pausing track");
+                EchoedCore.getMusicUtils().pause(mre.getGuild());
             }
             else {
                 mre.getChannel().sendMessage("You must be in a voice channel to use this command").queue();
@@ -75,10 +75,10 @@ public class PauseCommand extends Command {
         return null;
     }
 
-    @Override
+    /*@Override
     public boolean getDefaultPermission() {
         return false;
-    }
+    }*/
 
     @Override
     public String getModule() {

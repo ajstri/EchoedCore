@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package core.commands.music;
 
 import core.EchoedCore;
@@ -13,12 +28,12 @@ import java.util.List;
 public class StopCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
-        EchoedCore.log.info("STOP");
+        EchoedCore.getLog().info("STOP");
 
         Member author = mre.getMember();
         if (author != null) {
-            if (EchoedCore.utils.isInVoiceChannel(mre.getMember())) {
-                EchoedCore.utils.stopPlayer(mre.getGuild());
+            if (EchoedCore.getMusicUtils().isInVoiceChannel(mre.getMember())) {
+                EchoedCore.getMusicUtils().stopPlayer(mre.getGuild());
             }
             else {
                 mre.getChannel().sendMessage("You must be in a voice channel to use this command").queue();
@@ -31,7 +46,7 @@ public class StopCommand extends Command {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("stop", "st");
+        return Arrays.asList("stop", "st", "leave");
     }
 
     @Override
@@ -46,13 +61,13 @@ public class StopCommand extends Command {
 
     @Override
     public List<String> getUsage() {
-        return Collections.singletonList(EchoedCore.config.getPrefix() + "stop");
+        return Collections.singletonList(EchoedCore.getConfig().getPrefix() + "stop");
     }
 
-    @Override
+    /*@Override
     public boolean getDefaultPermission() {
         return true;
-    }
+    }*/
 
     @Override
     public String getModule() {

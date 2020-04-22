@@ -1,23 +1,24 @@
 /*
-    Copyright 2020 EchoedAJ
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at:
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+ *  Copyright 2020 EchoedAJ
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package utilities;
 
 import core.EchoedCore;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utilities.exceptions.NoConfigurationFileException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -54,7 +55,7 @@ public class FileUtilities {
             return Constants.WRITE_TO_FILE_SUCCESS;
         }
         catch (IOException ioe) {
-            EchoedCore.log.error("Unable to write to file.", ioe);
+            EchoedCore.getLog().error("Unable to write to file.", ioe);
             return Constants.WRITE_TO_FILE_FAIL;
         }
     }
@@ -81,7 +82,7 @@ public class FileUtilities {
             return Constants.WRITE_TO_FILE_SUCCESS;
         }
         catch (IOException ioe) {
-            EchoedCore.log.error("Unable to write to file.", ioe);
+            EchoedCore.getLog().error("Unable to write to file.", ioe);
             return Constants.WRITE_TO_FILE_FAIL;
         }
     }
@@ -98,7 +99,7 @@ public class FileUtilities {
         JSONArray object = getJSONFile(fileName);
 
         if (object.equals(null)) {
-            EchoedCore.log.error(key + " is null.", new Exception("Failed to grab " + key));
+            EchoedCore.getLog().error(key + " is null.", new NoConfigurationFileException("Failed to grab " + key));
             return  "" + Constants.STATUS_NO_CONFIG;
         }
 
@@ -130,11 +131,11 @@ public class FileUtilities {
 
         }
         catch (FileNotFoundException fnfe) {
-            EchoedCore.log.error("File not found.", fnfe);
+            EchoedCore.getLog().error("File not found.", fnfe);
             EchoedCore.shutdown(Constants.STATUS_NO_CONFIG);
         }
         catch (Exception e) {
-            EchoedCore.log.error("File could not be read.", e);
+            EchoedCore.getLog().error("File could not be read.", e);
             EchoedCore.shutdown(Constants.STATUS_NO_CONFIG);
         }
 
