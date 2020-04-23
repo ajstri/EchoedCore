@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  *  SkipCommand class of the EchoedCore project
+ *  On call, skips the currently playing song
  *
  *  All methods are explained in {@link Command}
  *

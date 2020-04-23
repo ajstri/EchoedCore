@@ -51,7 +51,7 @@ public class EchoedCore {
     private static final Logger log = new Logger();
     private static final Configuration config = new Configuration();
     private static final HelpCommand help = new HelpCommand();
-    private static long time = System.currentTimeMillis();
+    private static long time = 0;
 
     // toggleable by user
     private static boolean useDefaultMusicCommands = false;
@@ -61,23 +61,52 @@ public class EchoedCore {
     private static MusicUtilities utils;
     private static Map<Long, GuildMusicManager> musicManagers;
 
-    public EchoedCore() {}
+    public EchoedCore() {
+        time = System.currentTimeMillis();
+    }
 
     // ----- Accessible Bot Methods -----
 
-    public static boolean UsingDefaultMusicCommands() {
+    /**
+     * Returns if the Core is using the built-in music
+     * functions.
+     *
+     * @return true if using default music, false if not
+     */
+    public static boolean usingDefaultMusicCommands() {
         return useDefaultMusicCommands;
     }
 
-    public void disableInternalLogging() {
+    /**
+     * Disables the use of the {@link Logger} internally
+     *
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore disableInternalLogging() {
         getLog().setLogging(false);
+        return this;
     }
 
-    public void enableInternalLogging() {
+    /**
+     * Enabled the use of the {@link Logger} internally
+     *
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore enableInternalLogging() {
         getLog().setLogging(true);
+        return this;
     }
 
-    public void registerEventListener(Object... listener) {
+    /**
+     * Registers an event listener
+     *
+     * @param listener Event listener to register
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore registerEventListener(Object... listener) {
         try {
             api.addEventListener(listener);
         }
@@ -85,31 +114,69 @@ public class EchoedCore {
             log.error("Unable to register Event Listeners.", e);
             shutdown(Constants.STATUS_NO_EVENT);
         }
+        return this;
     }
 
-    public static void registerCommands(List<Command> commands) {
+    /**
+     * Registers a list of commands
+     *
+     * @param commands Commands to register
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore registerCommands(List<Command> commands) {
         for (Command command: commands) {
-            api.addEventListener(getHelp().registerCommand(command));
+            registerCommand(command);
         }
+        return this;
     }
 
-    public void enableMusicCommands() {
+    /**
+     * Registers a single command
+     *
+     * @param command Command to register
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore registerCommand(Command command) {
+        api.addEventListener(getHelp().registerCommand(command));
+        return this;
+    }
+
+    /**
+     * Enables the default Music functions
+     *
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore enableMusicCommands() {
         useDefaultMusicCommands = true;
 
         // Initialize audio portion
         initMusicPlayer();
+        return this;
     }
 
-    public void startup() {
+    /**
+     * Starts the Bot
+     *
+     * @return EchoedCore instance
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public EchoedCore startup() {
         getLog().welcome();
         debugOnlyInitialization();
         preInitialization();
         initialization();
         postInitialization();
+        return this;
     }
 
     // ----- Internal Methods -----
 
+    /**
+     *
+     */
     private static void debugOnlyInitialization() {
         if (config.getDebug()) {
             getLog().debug("Welcome to EchoedCore! \n \n", Constants.stagePreInit);
@@ -120,6 +187,9 @@ public class EchoedCore {
         }
     }
 
+    /**
+     *
+     */
     private static void preInitialization() {
         getLog().debug("Beginning Pre-Initialization.", Constants.stagePreInit);
 
@@ -130,6 +200,9 @@ public class EchoedCore {
         //.setActivity(Activity.watching("time pass by"));
     }
 
+    /**
+     *
+     */
     private void initialization() {
         getLog().debug("Beginning initialization.", Constants.stageInit);
         // Define the JDA Instance.
@@ -168,6 +241,9 @@ public class EchoedCore {
 
     }
 
+    /**
+     *
+     */
     private static void postInitialization() {
         getLog().debug("Beginning post-initialization.", Constants.stagePostInit);
 
@@ -193,6 +269,9 @@ public class EchoedCore {
 
     // ----- Music -----
 
+    /**
+     *
+     */
     private void initMusicPlayer() {
         audioManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(audioManager);
@@ -204,7 +283,7 @@ public class EchoedCore {
         musicManagers = new HashMap<>();
         utils = new MusicUtilities();
 
-        if (UsingDefaultMusicCommands()) {
+        if (usingDefaultMusicCommands()) {
             List<Command> musicCommands = Arrays.asList(
                     new PauseCommand(),
                     new PlayCommand(),
@@ -220,38 +299,89 @@ public class EchoedCore {
 
     // ----- Getter Methods -----
 
+    /**
+     * Retrieve the {@link Configuration} instance
+     *
+     * @return The {@link Configuration} instance used
+     * by the bot
+     */
     public static Configuration getConfig() {
         return config;
     }
 
+    /**
+     * Retrieve the {@link Logger} instance
+     *
+     * @return The {@link Logger} instance used
+     * by the bot
+     */
     public static Logger getLog() {
         return log;
     }
 
+    /**
+     * Retrieve the {@link HelpCommand} instance
+     *
+     * @return The {@link HelpCommand} instance used
+     * by the bot
+     */
     public static HelpCommand getHelp() {
         return help;
     }
 
+    /**
+     * Retrieve the {@link GuildMusicManager}s
+     *
+     * @return The {@link GuildMusicManager}s
+     */
     public static Map<Long, GuildMusicManager> getMusicManagers() {
         return musicManagers;
     }
 
+    /**
+     * Retrieve the {@link MusicUtilities} instance
+     *
+     * @return The {@link MusicUtilities} instance used
+     * by the bot
+     */
     public static MusicUtilities getMusicUtils() {
         return utils;
     }
 
+    /**
+     * Retrieve the {@link AudioPlayerManager} instance
+     *
+     * @return The {@link AudioPlayerManager} instance used
+     * by the bot
+     */
     public static AudioPlayerManager getAudioManager() {
         return audioManager;
     }
 
+    /**
+     * Retrieve the Bot's ID
+     *
+     * @return The Bot's ID
+     */
     public static String getId() {
         return getApi().getSelfUser().getId();
     }
 
+    /**
+     * Retrieve the {@link JDA} instance
+     *
+     * @return The {@link JDA} instance used
+     * by the bot
+     */
     public static JDA getApi() {
         return api;
     }
 
+    /**
+     * Shutdown the Bot Instance and exit the program
+     *
+     * @param status Status of the shutdown
+     */
     public static void shutdown(int status) {
         System.exit(status);
 

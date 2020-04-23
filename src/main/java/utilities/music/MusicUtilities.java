@@ -43,6 +43,7 @@ public class MusicUtilities {
 
     /**
      * Loads a track and plays it
+     *
      * @param trackUrl Song to load
      * @param first true if it should override queue
      */
@@ -52,16 +53,15 @@ public class MusicUtilities {
     }
 
     /**
+     * Plays a song
      *
-     * @param guild Guild to play in
      * @param track Track to play
-     * @param author Author who requested song
      * @param first true if it overrides queue
      * @return int based on end state
      */
-    public int play(Guild guild, AudioTrack track, Member author, boolean first) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
-        int connect = connectToVoiceChannel(guild.getAudioManager(), author);
+    public int play(MessageReceivedEvent mre, AudioTrack track, boolean first) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(mre.getGuild());
+        int connect = connectToVoiceChannel(mre.getGuild().getAudioManager(), mre.getMember());
         if (connect == Constants.VOICE_CONNECT_SUCCESS) {
             musicManager.scheduler.queue(track, first);
             return connect;
@@ -70,7 +70,21 @@ public class MusicUtilities {
     }
 
     /**
+     * Stops the audio player
+     *
+     * @param guild Guild the command was called
+     */
+    public void stopPlayer(Guild guild) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
+        musicManager.player.stopTrack();
+        musicManager.scheduler.getQueue().clear();
+
+        guild.getAudioManager().closeAudioConnection();
+    }
+
+    /**
      * Skips current track
+     *
      * @param channel Channel request was sent from
      */
     public void skipTrack(TextChannel channel) {
@@ -87,6 +101,7 @@ public class MusicUtilities {
 
     /**
      * Gets the tracks title
+     *
      * @param guild Guild the request was sent from
      * @return String title of the track
      */
@@ -97,6 +112,7 @@ public class MusicUtilities {
 
     /**
      * Connects Bot to voice channel
+     *
      * @param audioManager Audio managed
      * @param author Author who requested
      * @return int based on end state
@@ -119,16 +135,9 @@ public class MusicUtilities {
         else return Constants.VOICE_CONNECT_NOT_IN_CHANNEL;
     }
 
-    public void stopPlayer(Guild guild) {
-        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
-        musicManager.player.stopTrack();
-        musicManager.scheduler.getQueue().clear();
-
-        guild.getAudioManager().closeAudioConnection();
-    }
-
     /**
      * Checks if author is in a voice channel
+     *
      * @param author to check
      * @return true if in voice channel, false if not
      */
@@ -140,6 +149,7 @@ public class MusicUtilities {
 
     /**
      * Pauses the player
+     *
      * @param guild Guild request was sent from
      */
     public void pause(Guild guild) {
@@ -149,6 +159,7 @@ public class MusicUtilities {
 
     /**
      * Unpause the player
+     *
      * @param guild Guild request was from
      */
     public void continuePlaying(Guild guild) {
@@ -158,6 +169,7 @@ public class MusicUtilities {
 
     /**
      * Determine if player is paused
+     *
      * @param channel Channel request is from
      * @return true if paused, false if not
      */
@@ -168,6 +180,7 @@ public class MusicUtilities {
 
     /**
      * Display the queue
+     *
      * @param channel Channel to display in
      * @param page Page of queue
      */
@@ -214,11 +227,23 @@ public class MusicUtilities {
         if (sendEmbed) channel.sendMessage(embed.build()).queue();
     }
 
+    /**
+     * Returns the players' current volume
+     *
+     * @param guild Guild command was called
+     * @return Volume of the player
+     */
     public int getVolume (Guild guild) {
         GuildMusicManager musicManager = getGuildAudioPlayer(guild);
         return musicManager.player.getVolume();
     }
 
+    /**
+     * Sets the players volume
+     *
+     * @param guild Guild command was called
+     * @param volume New volume for the player
+     */
     public void setVolume (Guild guild, int volume) {
         GuildMusicManager musicManager = getGuildAudioPlayer(guild);
         musicManager.player.setVolume(volume);
@@ -226,6 +251,7 @@ public class MusicUtilities {
 
     /**
      * Gets audio player from the Guild
+     *
      * @param guild Guild to retrieve player from
      * @return Player
      */
@@ -244,6 +270,12 @@ public class MusicUtilities {
         return musicManager;
     }
 
+    /**
+     * Returns a string of the song's timestamp
+     *
+     * @param milliseconds Time in milliseconds of the song
+     * @return timestamp
+     */
     private static String getTimestamp(long milliseconds)
     {
         int seconds = (int) (milliseconds / 1000) % 60 ;

@@ -64,7 +64,7 @@ public class Logger {
                         "                                                              \n"
         );
 
-        blank("", Constants.ANSI_CYAN, "E  C  H  O  _  C  O  R  E  --  V  E  R  S  I  O  N  " + Constants.VERSION);
+        blank("", Constants.ANSI_CYAN, "E  C  H  O  E  D  C  O  R  E  -  V  E  R  S  I  O  N  " + Constants.VERSION);
         blank("", Constants.ANSI_YELLOW, "\t\t\t\tVersion: \t" + Constants.VERSION);
         blank("", Constants.ANSI_YELLOW, "\t\t\t\tBuild: \t\t" + Constants.BUILD_NUMBER);
         blank("", Constants.ANSI_YELLOW, "\t\t\t\tJVM: \t\t" + Constants.JVM + "\n");
@@ -73,6 +73,7 @@ public class Logger {
 
     /**
      * Toggles if internal logging should be used
+     *
      * @param logging true if yes, false if no
      */
     public void setLogging(boolean logging) {
@@ -85,6 +86,7 @@ public class Logger {
 
     /**
      * Logs an informational message
+     *
      * @param message Message to log
      */
     public void info(String message) {
@@ -95,6 +97,7 @@ public class Logger {
 
     /**
      * Logs a warning message
+     *
      * @param message Message to log
      */
     public void warning(String message) {
@@ -105,6 +108,7 @@ public class Logger {
 
     /**
      * Logs an error message
+     *
      * @param message Message to log
      * @param e Exception encountered
      */
@@ -119,6 +123,7 @@ public class Logger {
 
     /**
      * Logs a debug message
+     *
      * @param message Message to log
      * @param stage Stage of log
      */
@@ -130,6 +135,7 @@ public class Logger {
 
     /**
      * Logs a custom message
+     *
      * @param message message to log
      * @param header header of message, eg. "[EchoedBot/Utils]"
      * @param color color of message

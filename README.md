@@ -1,13 +1,15 @@
 [license]: https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg
 [issues]: https://img.shields.io/github/issues/ajstri/EchoedCore.svg 
 [issues-link]: https://github.com/ajstri/EchoedCore/issues
-
 [ ![license][] ](https://github.com/ajstri/EchoedCore/blob/master/LICENSE)
 [ ![issues][] ][issues-link]
 
 # EchoedCore - Framework for Discord Bots in Java
- A simple-to-use Discord Bot framework written in Java using [JDA](https://github.com/DV8FromTheWorld/JDA) and [LavaPlayer](https://github.com/sedmelluq/lavaplayer)
+#### A simple-to-use Discord Bot framework written in Java using [JDA](https://github.com/DV8FromTheWorld/JDA) and [LavaPlayer](https://github.com/sedmelluq/lavaplayer)
 
+Using JDA Version `4.1.1_137` and LavaPlayer version `1.3.47`
+
+Most recent versions:
 # Features
 #### **Command framework**
 Commands can be easily created and defined using [Command](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/commands/Command.java).
@@ -37,18 +39,18 @@ Included in this framework is a list of default Music Commands:
 
 These are not included in the user-defined Bot instance, however, it is simple to include into your project:
 
-Assuming a new instance of [EchoedCore](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/EchoedCore.java) called `main`:
+Assuming a new instance of [EchoedCore](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/EchoedCore.java) called `yourBot`:
 
-`main.enableDefaultMusicCommands();`
+`yourBot.enableDefaultMusicCommands();`
 
 They are meant to be a comprehensive set of commands that the developer can use without needing to create their own, but is not mandatory to use.
 
 # Usage
 
-Creating a Bot is easy. In your main method:
+Creating a Bot is easy. In your main method, assuming a new instance of [EchoedCore](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/EchoedCore.java) called `yourBot`:
 ```java_holder_method_tree
     // Starts the Bot.
-    main.startup();
+    yourBot.startup();
 ```
 Failing on the very first run is normal. On this run, the [Configuration](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/configuration/Configuration.java)
 generates, but is not usable in its default state. After the first run, edit the generated `config.json` file

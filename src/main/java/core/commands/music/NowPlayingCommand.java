@@ -25,6 +25,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *  NowPlayingCommand class of the EchoedCore project
+ *  On call, displays the currently playing song
+ *
+ *  All methods are explained in {@link Command}
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class NowPlayingCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
@@ -33,13 +42,15 @@ public class NowPlayingCommand extends Command {
         Member author = mre.getMember();
         if (author != null) {
             if (EchoedCore.getMusicUtils().isInVoiceChannel(mre.getMember())) {
-                mre.getChannel().sendMessage(EchoedCore.getMusicUtils().getTrackTitle(mre.getGuild())).queue();
+                // Display song title
+                mre.getChannel().sendMessage("Now Playing: " + EchoedCore.getMusicUtils().getTrackTitle(mre.getGuild())).queue();
             }
             else {
                 mre.getChannel().sendMessage("You must be in a voice channel to use this command").queue();
             }
         }
         else {
+            // User is null
             mre.getChannel().sendMessage("Uh oh. Something went wrong!").queue();
         }
     }

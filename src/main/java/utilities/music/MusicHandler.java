@@ -37,6 +37,13 @@ public class MusicHandler implements AudioLoadResultHandler {
     private final String trackUrl;
     private final boolean first;
 
+    /**
+     * MusicHandler constructor
+     *
+     * @param mre Event of the music command
+     * @param trackUrl Track from the command
+     * @param first if the track should be loaded first
+     */
     public MusicHandler(MessageReceivedEvent mre, String trackUrl, boolean first) {
         this.mre = mre;
         this.trackUrl = trackUrl;
@@ -55,7 +62,7 @@ public class MusicHandler implements AudioLoadResultHandler {
                 embed.addField("Adding to queue", audioTrack.getInfo().title, false);
                 mre.getChannel().sendMessage(embed.build()).queue();
 
-                int connect = EchoedCore.getMusicUtils().play(mre.getGuild(), audioTrack, mre.getMember(), first);
+                int connect = EchoedCore.getMusicUtils().play(mre, audioTrack, first);
 
                 if (connect == Constants.VOICE_CONNECT_NO_PERMS) {
                     mre.getChannel().sendMessage("I don't have permission to join your voice channel!").queue();
@@ -88,7 +95,7 @@ public class MusicHandler implements AudioLoadResultHandler {
 
         // Add tracks
         for (AudioTrack audio : playlist.getTracks()) {
-            if (EchoedCore.getMusicUtils().play(mre.getGuild(), audio, mre.getMember(), false) == -1) {
+            if (EchoedCore.getMusicUtils().play(mre, audio, false) == Constants.VOICE_CONNECT_NOT_IN_CHANNEL) {
                 // Quit if user is not in a voice channel
                 mre.getChannel().sendMessage("You are not in a voice channel!").queue();
                 return;

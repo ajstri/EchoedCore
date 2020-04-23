@@ -25,6 +25,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *  StopCommand class of the EchoedCore project
+ *  On call, stops the player completely
+ *
+ *  All methods are explained in {@link Command}
+ *
+ * @author EchoedAJ
+ * @since April 2020
+ */
 public class StopCommand extends Command {
     @Override
     protected void onCommand(MessageReceivedEvent mre, String[] args) {
@@ -32,7 +41,9 @@ public class StopCommand extends Command {
 
         Member author = mre.getMember();
         if (author != null) {
+            // Check if in a voice channel
             if (EchoedCore.getMusicUtils().isInVoiceChannel(mre.getMember())) {
+                // Stop the player
                 EchoedCore.getMusicUtils().stopPlayer(mre.getGuild());
             }
             else {
@@ -40,6 +51,7 @@ public class StopCommand extends Command {
             }
         }
         else {
+            // Member is null
             mre.getChannel().sendMessage("Uh oh. Something went wrong!").queue();
         }
     }

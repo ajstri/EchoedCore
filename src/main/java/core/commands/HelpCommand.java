@@ -125,6 +125,7 @@ public class HelpCommand extends Command {
 
     /**
      * Sends a message to a private channel.
+     *
      * @param channel channel to send to
      * @param args arguments used to build the message.
      */
@@ -184,6 +185,7 @@ public class HelpCommand extends Command {
 
     /**
      * Sends a message telling the user their search doesn't exist
+     *
      * @param channel channel to send message
      * @param args arguments to build message
      */
@@ -200,6 +202,7 @@ public class HelpCommand extends Command {
 
     /**
      * Add Commands to the embed
+     *
      * @param embed embed to add Commands to
      * @param c Command to add
      */
@@ -233,6 +236,7 @@ public class HelpCommand extends Command {
 
     /**
      * Returns a list of Commands within a given module
+     *
      * @param module Module to search in
      * @return List of commands
      */
@@ -250,6 +254,7 @@ public class HelpCommand extends Command {
 
     /**
      * Returns the number of commands in a module
+     *
      * @param module Module to search in
      * @return Number of commands in Module
      */

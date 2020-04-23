@@ -19,7 +19,7 @@ import core.EchoedCore;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.*;
-import utilities.exceptions.NoConfigurationFileException;
+import utilities.exceptions.*;
 
 import java.io.*;
 
@@ -42,7 +42,7 @@ public class Configuration {
      */
     public Configuration() {
         // Check if Configuration File exists.
-        File f = new File(fileName);
+        File f = new File(getFileName());
         if (!f.exists() || f.isDirectory()) {
             // Create file.
             createConfigurationFile();
@@ -52,7 +52,7 @@ public class Configuration {
         if (!checkConfigurationUsability()) {
             EchoedCore.getLog().error(
                 "Configuration File is not usable.",
-                new NoConfigurationFileException("Unusable configuration file. Please check the file at " + fileName)
+                new NoConfigurationFileException("Unusable configuration file. Please check the file at " + getFileName())
             );
             EchoedCore.shutdown(Constants.STATUS_CONFIG_UNUSABLE);
         }
@@ -76,7 +76,7 @@ public class Configuration {
         array.put(object);
 
         JSONObject obj2 = new JSONObject();
-        obj2.put(arrayName, object);
+        obj2.put(getArrayName(), object);
 
         // Write to the file.
         if (writeToFile(obj2) < 0) {
@@ -109,7 +109,7 @@ public class Configuration {
     @SuppressWarnings("unused")
     private int writeToFile(JSONArray obj) {
         // Write to the file.
-        return FileUtilities.writeToFile(obj, fileName);
+        return FileUtilities.writeToFile(obj, getFileName());
     }
 
     /**
@@ -119,7 +119,7 @@ public class Configuration {
      */
     private int writeToFile(JSONObject obj) {
         // Write to the file.
-        return FileUtilities.writeToFile(obj, fileName);
+        return FileUtilities.writeToFile(obj, getFileName());
     }
 
     /**
@@ -138,7 +138,7 @@ public class Configuration {
      * @return prefix from Configuration.
      */
     public String getPrefix() {
-        String prefix = FileUtilities.getValueByKey(fileName, Constants.PREFIX_KEY, arrayName);
+        String prefix = FileUtilities.getValueByKey(getFileName(), Constants.PREFIX_KEY, getArrayName());
 
         if (prefix.contains("" + Constants.STATUS_NO_CONFIG)) {
             EchoedCore.getLog().warning("No need for a shutdown. Failed to grab prefix. Using default.");
@@ -154,7 +154,7 @@ public class Configuration {
      * @return token from Configuration.
      */
     public String getToken() {
-        String token = FileUtilities.getValueByKey(fileName, Constants.TOKEN_KEY, arrayName);
+        String token = FileUtilities.getValueByKey(getFileName(), Constants.TOKEN_KEY, getArrayName());
 
         if (token.contains("" + Constants.STATUS_NO_CONFIG)) {
             EchoedCore.getLog().info("No token found. Calling for shut down.");
@@ -172,7 +172,7 @@ public class Configuration {
      * @return debug status from Configuration.
      */
     public boolean getDebug() {
-        String debug = FileUtilities.getValueByKey(fileName, Constants.DEBUG_KEY, arrayName);
+        String debug = FileUtilities.getValueByKey(getFileName(), Constants.DEBUG_KEY, getArrayName());
 
         if (debug.contains("" + Constants.STATUS_NO_CONFIG)) {
             EchoedCore.getLog().warning("Failed to grab debug. Using default.");
@@ -188,7 +188,7 @@ public class Configuration {
      * @return number of shards from Configuration.
      */
     public int getShards() {
-        String shards = FileUtilities.getValueByKey(fileName, Constants.SHARDS_KEY, arrayName);
+        String shards = FileUtilities.getValueByKey(getFileName(), Constants.SHARDS_KEY, getArrayName());
 
         if (shards.contains("" + Constants.STATUS_NO_CONFIG)) {
             EchoedCore.getLog().warning("Failed to grab Shards. Using default.");
@@ -204,4 +204,21 @@ public class Configuration {
         }
     }
 
+    /**
+     * Retrieves file name of the Configuration
+     *
+     * @return file name
+     */
+    public static String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * Retrieves array name of the Configuration
+     *
+     * @return array name
+     */
+    public static String getArrayName() {
+        return arrayName;
+    }
 }

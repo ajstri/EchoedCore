@@ -35,6 +35,7 @@ public class FileUtilities {
 
     /**
      * Adds a JSON Array to the Configuration File.
+     *
      * @param obj JSONObject to add to file
      */
     @SuppressWarnings("Duplicates")
@@ -62,6 +63,7 @@ public class FileUtilities {
 
     /**
      * Adds a JSON Array to the Configuration File.
+     *
      * @param object JSONObject to add to file
      */
     @SuppressWarnings("Duplicates")
@@ -89,6 +91,7 @@ public class FileUtilities {
 
     /**
      * Retrieves a specific value by key in a given file.
+     *
      * @param fileName Name of the file to retrieve key from
      * @param key Key to retrieve
      * @param arrayLocation Array the key is located in
@@ -111,6 +114,7 @@ public class FileUtilities {
 
     /**
      * Retrieves the JSONObject to read the JSON File.
+     *
      * @return JSONObject
      */
     public static JSONArray getJSONFile(String fileName) {

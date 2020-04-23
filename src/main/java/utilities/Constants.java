@@ -15,6 +15,9 @@
  */
 package utilities;
 
+/**
+ * Constants used by the EchoedCore project
+ */
 @SuppressWarnings("unused")
 public class Constants {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -46,7 +49,7 @@ public class Constants {
     public static final String GAME_STATUS_VALUE = "with my friends";
     public static final String SHARDS_VALUE = "0";
 
-    public static final String VERSION = "2";
+    public static final String VERSION = "0";
     public static final String BUILD_NUMBER = "0.2S";
     public static final String JVM = System.getProperty("java.version");
 
@@ -60,8 +63,8 @@ public class Constants {
     public static final int WRITE_TO_FILE_FAIL = -1;
 
     public static final int VOICE_CONNECT_SUCCESS = 1;
-    public static final int VOICE_CONNECT_NO_PERMS = -2;
     public static final int VOICE_CONNECT_NOT_IN_CHANNEL = -1;
+    public static final int VOICE_CONNECT_NO_PERMS = -2;
     public static final int VOICE_CONNECT_FAIL_OTHER = -3;
 
 }

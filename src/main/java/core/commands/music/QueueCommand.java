@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  *  QueueCommand class of the EchoedCore project
+ *  On call, displays the queue of the player
  *
  *  All methods are explained in {@link Command}
  *

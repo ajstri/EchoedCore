@@ -19,7 +19,7 @@ import utilities.Logger;
 
 public class MainExample {
 
-    public static final EchoedCore main = new EchoedCore();
+    private static final EchoedCore main = new EchoedCore();
 
     public static void main(String[] args) {
         // Start the bot.

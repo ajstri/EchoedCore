@@ -41,6 +41,12 @@ public class TrackScheduler extends AudioEventAdapter  {
         this.queue = new LinkedBlockingQueue<>();
     }
 
+    /**
+     * Queues a song
+     *
+     * @param track song to queue
+     * @param first true if first, false if at the end
+     */
     public void queue(AudioTrack track, boolean first) {
         // Calling startTrack with the noInterrupt set to true will start the track only if nothing is currently playing. If
         // something is playing, it returns false and does nothing. In that case the player was already playing so this

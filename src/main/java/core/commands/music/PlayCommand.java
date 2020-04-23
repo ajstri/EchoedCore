@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  *  PlayCommand class of the EchoedCore project
+ *  On call, plays a given song or restarts the player
  *
  *  All methods are explained in {@link Command}
  *

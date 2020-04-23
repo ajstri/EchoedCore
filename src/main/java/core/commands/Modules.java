@@ -14,6 +14,11 @@
  *  limitations under the License.
  */package core.commands;
 
+/**
+ * Module Class of the EchoedCore project
+ *
+ * Defines modules supported by the Command System
+ */
 public class Modules {
     public static final String GENERIC = "generic";
     public static final String ADMIN = "admin";
