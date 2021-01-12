@@ -7,7 +7,7 @@
 # EchoedCore - Framework for Discord Bots in Java
 #### A simple-to-use Discord Bot framework written in Java using [JDA](https://github.com/DV8FromTheWorld/JDA) and [LavaPlayer](https://github.com/sedmelluq/lavaplayer)
 
-Using JDA Version `4.1.1_137` and LavaPlayer version `1.3.47`
+Using JDA Version `4.2.0_227` and LavaPlayer version `1.3.66`
 
 Most recent versions:
 # Features
@@ -19,10 +19,10 @@ automatically registers developer-defined commands for further use in its method
 To register a set of Commands, assuming a new instance of [EchoedCore](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/EchoedCore.java) called `main`:
 
 ```java_holder_method_tree
-    List<Command> commandList = new Arrays.asList(
+    List<Command> commandListAll = new ArrayList<>(){{
             new YourCommand1();
             new YourCommand2();
-        );
+    }}
 
     main.registerCommands(commandList);
 ```
@@ -37,7 +37,7 @@ Included in this framework is a list of default Music Commands:
 - [StopCommand](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/commands/music/StopCommand.java)
 - [VolumeCommand](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/commands/music/VolumeCommand.java)
 
-These are not included in the user-defined Bot instance, however, it is simple to include into your project:
+These are not included in the user-defined Bot instance; however, it is simple to include into your project:
 
 Assuming a new instance of [EchoedCore](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/core/EchoedCore.java) called `yourBot`:
 
@@ -55,3 +55,9 @@ Creating a Bot is easy. In your main method, assuming a new instance of [EchoedC
 Failing on the very first run is normal. On this run, the [Configuration](https://github.com/ajstri/EchoedCore/blob/master/src/main/java/configuration/Configuration.java)
 generates, but is not usable in its default state. After the first run, edit the generated `config.json` file
 to include your bot's actual token, replacing the default value.
+
+# Including this dependency in your project
+[WIP]
+
+# Examples using EchoedCore
+[EchoedDungeons](https://github.com/ajstri/EchoedDungeons/)
